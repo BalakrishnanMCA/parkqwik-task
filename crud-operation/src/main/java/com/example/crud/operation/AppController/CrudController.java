@@ -2,6 +2,7 @@ package com.example.crud.operation.AppController;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.crud.operation.AppEntity.MailData;
 import com.example.crud.operation.AppEntity.UserData;
 import com.example.crud.operation.AppService.CrudService;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 
@@ -53,6 +55,13 @@ public class CrudController {
         } else {
             return ResponseEntity.status(404).body("User not found");
         }
+    }
+    
+    @PostMapping("/sendmail")
+    public String sentmail(@RequestBody MailData data) {
+
+        service.sendMail(data);
+        return "successfully mail sended";
     }
     
     

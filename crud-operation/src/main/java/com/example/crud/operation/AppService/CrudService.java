@@ -3,8 +3,12 @@ package com.example.crud.operation.AppService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.crud.operation.AppEntity.MailData;
 import com.example.crud.operation.AppEntity.UserData;
 import com.example.crud.operation.AppRepository.CrudRepository;
 
@@ -70,5 +74,23 @@ public class CrudService {
         repository.delete(users.get(0));
         return true;
             
+    }
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    private String toMail="abalakrishnan807@gmail.com";
+
+    @Value("${spring.mail.username}")
+    private String fromMail;
+
+    public void sendMail(MailData data){
+        SimpleMailMessage mailMessage=new SimpleMailMessage();
+        mailMessage.setFrom(fromMail);
+        mailMessage.setSubject(data.getSubject());
+        mailMessage.setText(data.getMessage());
+        mailMessage.setTo(toMail);
+
+        mailSender.send(mailMessage);
     }
 }
